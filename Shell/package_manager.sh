@@ -34,14 +34,39 @@ detect_os() {
     fi
 }
 
-# Install a package
+
+# Install a package with a check
 install_package() {
     read -rp "Enter package name to install: " package
+    
+    # Check if package is already installed
+    case "$PKG_MANAGER" in
+        apt)
+            if dpkg -l | grep -qw "$package"; then
+                echo "Package '$package' is already installed."
+                return
+            fi
+            ;;
+        pacman)
+            if pacman -Q "$package" &>/dev/null; then
+                echo "Package '$package' is already installed."
+                return
+            fi
+            ;;
+        dnf)
+            if dnf list installed "$package" &>/dev/null; then
+                echo "Package '$package' is already installed."
+                return
+            fi
+            ;;
+    esac
+
     echo "Updating package list..."
     sudo $UPDATE_CMD
     echo "Installing $package..."
     sudo $INSTALL_CMD "$package"
 }
+
 
 uninstall_package() {
     read -rp "Enter package name to uninstall: " package
