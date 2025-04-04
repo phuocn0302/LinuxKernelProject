@@ -1,11 +1,11 @@
-# Linux Controller to Mouse Kernel
+# Linux Controller to Mouse Kernel Module
 
-## A kernel that turn your controller to a mouse (kind of)
++ A kernel module that turn your controller to a mouse (kind of)
 
 ## How to run
 
 ``` sh
-# Compile module
+# Compile the module
 make
 
 # Enable module
